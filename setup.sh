@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Get the directory of the script
-base_dir=$(dirname "$0")
+base_dir=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 script_path="$base_dir/scripts"
 systemd_unit_path="$base_dir/systemd"
 
@@ -13,6 +13,7 @@ echo "Creating symlinks for scripts in /usr/local/bin/..."
 for script in "$script_path"/*; do
     script_name=$(basename "$script")
     sudo ln -sf "$script" "/usr/local/bin/$script_name"
+    echo "Symlink created for $script_name"
 done
 
 echo "Deploying systemd service and timer files..."
