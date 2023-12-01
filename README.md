@@ -58,3 +58,18 @@ MIT License
 User=root
 Group=root
 ```
+
+#### Cron alternatives for WSL
+```bash
+# create the log files
+sudo touch /var/log/backup-k8s-resources.log
+sudo chown paul:paul /var/log/backup-k8s-resources.log
+sudo usermod -a -G root paul
+sudo touch /var/log/backup-retention.log
+sudo chown paul:paul /var/log/backup-retention.log
+sudo usermod -a -G root paul
+
+# crontab -e
+30 7 * * * echo "$(date): Running backup-k8s-resources.sh" >> /var/log/backup-k8s-resources.log &&/home/paul/git/kube-backup/scripts/backup-k8s-resources.sh >> /var/log/backup-k8s-resources.log 2>&1
+0 8 * * * echo "$(date): Running backup-retention.sh" >> /var/log/backup-retention.log &&/home/paul/git/kube-backup/scripts/backup-retention.sh >> /var/log/backup-retention.log 2>&1
+```
