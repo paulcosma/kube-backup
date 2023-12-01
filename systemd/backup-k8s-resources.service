@@ -2,6 +2,8 @@
 Description=Kubernetes Resources Backup
 
 [Service]
+User=root
+Group=root
 Type=oneshot
 ExecStart=/usr/local/bin/backup-k8s-resources.sh
 

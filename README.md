@@ -47,3 +47,14 @@ Contributions to this project are welcome. Please ensure you follow the existing
 
 ### License
 MIT License
+
+### Issues and Resolutions
+#### Environment Variables in Systemd Services
+**Problem**: When the `backup-k8s-resources` script was executed as a systemd service on a Proxmox server, it couldn't access the root user's environment variables. This issue was evident when observing the behavior of `echo $HOME` within the script. When run through the systemd service, it output `/` (the root directory) instead of `/root/`, which is the expected output when the script is run directly from the command line as the root user.
+**Cause**: Systemd services run in an isolated environment with a minimal set of environment variables for security and consistency. As a result, environment variables like `$HOME` might not reflect the user's usual interactive shell environment. In this case, the script was unable to locate the Kubernetes configuration file (`kubeconfig`) typically found in the root user's home directory, leading to the failure of `kubectl` commands.
+**Solution**: To resolve this, the following settings were added to the `[Service]` section of the `backup-k8s-resources.service` file:
+```ini
+[Service]
+User=root
+Group=root
+```

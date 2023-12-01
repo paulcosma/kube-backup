@@ -8,7 +8,7 @@ NC='\033[0m' # No Color
 
 DATE=$(date +%Y%m%d%H%M%S%Z)
 
-kube_config_file="$HOME/.kube/config"
+kube_config_file="${HOME}/.kube/config"
 backup_folder="/data/k8s/backup"
 sleep_duration=1 # Configurable sleep duration to avoid rate limiting on the API server. Adjust if needed.
 
@@ -39,7 +39,7 @@ cluster_names=$(kubectl config get-contexts --output=name | cut -d '/' -f 2)
 for cluster_name in $cluster_names; do
   echo -e "${GREEN}Cluster Name: ${YELLOW}$cluster_name${NC}"
   if kubectl config use-context "$cluster_name"; then
-# Check if the cluster is reachable
+      # Check if the cluster is reachable
       if kubectl get nodes >/dev/null 2>&1; then
           mkdir -p "$backup_folder/$cluster_name-$DATE" || { echo -e "${RED}Failed to create directory for ${YELLOW}$cluster_name${NC}"; continue; }
           backup_resources "$cluster_name" false # Backup cluster wide resources
