@@ -1,0 +1,9 @@
+[Unit]
+Description=Kubernetes Resources Backup
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/backup-k8s-resources.sh
+
+[Install]
+WantedBy=multi-user.target

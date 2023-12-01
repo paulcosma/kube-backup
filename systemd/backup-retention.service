@@ -1,0 +1,9 @@
+[Unit]
+Description=Backup Retention
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/backup-retention.sh
+
+[Install]
+WantedBy=multi-user.target
