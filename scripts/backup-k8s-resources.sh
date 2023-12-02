@@ -41,7 +41,7 @@ for cluster_name in $cluster_names; do
   if kubectl config use-context "$cluster_name"; then
       # Check if the cluster is reachable
       if kubectl get nodes >/dev/null 2>&1; then
-          mkdir -p "$backup_folder/$cluster_name-$DATE" || { echo -e "${RED}Failed to create directory for ${YELLOW}$cluster_name${NC}"; continue; }
+          mkdir -p "$backup_folder/$DATE/$cluster_name" || { echo -e "${RED}Failed to create directory for ${YELLOW}$cluster_name${NC}"; continue; }
           backup_resources "$cluster_name" false # Backup cluster wide resources
           backup_resources "$cluster_name" true # Backup namespaced resources
       else
