@@ -22,7 +22,7 @@ function backup_resources() {
     local namespaced=$2
     local resource_list=$(kubectl api-resources --namespaced=$namespaced --verbs=list -o name)
     for resource in $resource_list; do
-        local file_path="$backup_folder/$cluster_name-$DATE/$resource.yaml"
+        local file_path="$backup_folder/$DATE/$cluster_name/$resource.yaml"
         echo -e "Backup ${GREEN}$resource ${NC}in ${YELLOW}$file_path${NC}"
         if [ "$namespaced" == "true" ]; then
             kubectl get "$resource" -A --show-kind --ignore-not-found -o yaml > "$file_path" || { echo -e "${RED}Failed to backup $resource for ${YELLOW}$cluster_name${NC}"; continue; }
